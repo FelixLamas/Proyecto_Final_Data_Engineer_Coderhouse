@@ -1,0 +1,19 @@
+# --- Datos Locales ---
+data/
+output/
+*.duckdb
+*.db
+
+# --- Python & Spark ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+spark-warehouse/
+derby.log
+metastore_db/
+
+# --- Docker & System ---
+.DS_Store
+.env

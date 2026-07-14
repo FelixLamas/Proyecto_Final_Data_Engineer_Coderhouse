@@ -1,0 +1,16 @@
+# dbt_project.yml
+name: 'proyecto_final'
+version: '1.0.0'
+config-version: 2
+
+profile: 'proyecto_final'
+
+model-paths: ["models"]
+test-paths: ["tests"] 
+
+models:
+  proyecto_final:
+    staging:
+      materialized: view # La capa Silver suele ser vistas para ahorrar espacio
+    marts:
+      materialized: table # La capa Gold se guarda como tabla física

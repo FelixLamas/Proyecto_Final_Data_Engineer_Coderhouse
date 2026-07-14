@@ -1,0 +1,9 @@
+services:
+  pipeline:
+    build: .
+    container_name: data_pipeline_container
+    volumes:
+      - .:/project
+    working_dir: /project
+    stdin_open: true
+    tty: true
