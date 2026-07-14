@@ -17,3 +17,8 @@ metastore_db/
 # --- Docker & System ---
 .DS_Store
 .env
+
+# dbt local state and telemetry
+.user.yml
+target/
+logs/

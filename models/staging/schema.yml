@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_usuarios
+    description: "Capa Staging de la tabla de usuarios, validando integridad."
+    columns:
+      - name: user_id
+        description: "Clave primaria del usuario."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_ventas
+    description: "Capa Staging de transacciones de ventas, validando reglas de negocio."
+    columns:
+      - name: transaction_id
+        description: "Clave única de transacción."
+        tests:
+          - unique
+          - not_null
+      - name: precio_unitario
+        description: "Precio unitario del producto vendido."
+        tests:
+          - not_null
+
+  - name: stg_web_logs
+    description: "Capa Staging de clickstream procesado previamente por PySpark."
+    columns:
+      - name: user_id
+        tests:
+          - not_null
