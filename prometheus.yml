@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 5s # Intervalo rápido para pruebas locales
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Aquí configuramos el scraping de métricas del contenedor de Spark / Python
+  - job_name: 'data_pipeline'
+    static_configs:
+      - targets: ['pipeline:8000'] # El puerto donde expondremos métricas del script
