@@ -3,6 +3,6 @@ proyecto_final:
   outputs:
     dev:
       type: duckdb
-      path: output/prod.duckdb 
+      path: output/prod.duckdb  # dbt creará y leerá la base de datos aquí
       threads: 4
   target: dev
