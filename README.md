@@ -11,9 +11,7 @@ La distribución de directorios y componentes principales del repositorio está 
 ```text
 Proyecto_Final_Data_Engineer_Coderhouse/
 │
-├── dbt_project/               # Proyecto de dbt (Modelos SQL, esquemas y tests)
-│   ├── models/                # Modelos analíticos (Staging, Marts, etc.)
-│   └── dbt_project.yml        # Configuración del proyecto dbt
+├── data/                      # Archivos de datos de origen (csv, parquet)
 │
 ├── grafana/                   # Configuraciones de observabilidad para Grafana
 │   ├── dashboards/            # Archivos JSON de dashboards provistos
@@ -21,15 +19,29 @@ Proyecto_Final_Data_Engineer_Coderhouse/
 │
 ├── images/                    # Capturas de pantalla de evidencias de ejecución
 │
-├── prometheus/                # Archivos de configuración de Prometheus
-│   └── prometheus.yml         # Definición de targets y tiempos de scrape
-│
-├── scripts/                   # Scripts de Python y procesamiento
+├── jobs/                      # Scripts principales de procesamiento de datos
 │   ├── generate_data.py       # Ingesta y generación de datos raw
-│   └── pyspark_process.py     # Lógica de limpieza y transformación en Spark
+│   └── process_logs.py        # Lógica de limpieza y transformación en Spark
 │
-├── docker-compose.yml         # Orquestación de infraestructura multi-contenedor
-├── Dockerfile                 # Construcción del entorno de ejecución del pipeline
+├── logs/                      # Registro de eventos y depuración de dbt (dbt.log)
+│
+├── models/                    # Modelos analíticos de dbt
+│   ├── marts/                 # Modelos agregados y de negocio
+│   └── staging/               # Modelos de limpieza inicial (stg_*.sql y schema.yml)
+│
+├── output/                    # Carpeta de salida de los datos procesados
+│
+├── target/                    # Compilaciones intermedias generadas por dbt
+│
+├── tests/                     # Tests singulares/personalizados de dbt (SQL)
+│   └── assert_precio_es_positivo.sql
+│
+├── .gitignore                 # Definición de archivos excluidos de Git
+├── dbt_project.yml            # Configuración del proyecto dbt
+├── docker-compose.yml         # Orquestación de infraestructura de contenedores
+├── Dockerfile                 # Construcción del entorno de ejecución de Python/dbt
+├── profiles.yml               # Conexión de dbt al Data Warehouse (DuckDB)
+├── prometheus.yml             # Definición de targets y tiempos de scrape de Prometheus
 ├── README.md                  # Documentación del proyecto
 ├── requirements.txt           # Dependencias de librerías de Python
 └── run_pipeline.py            # Script orquestador principal del pipeline
