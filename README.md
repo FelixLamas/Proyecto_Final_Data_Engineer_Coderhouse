@@ -49,8 +49,8 @@ Siga estas instrucciones para levantar el entorno local de manera limpia y autom
 Clone este repositorio en su máquina local y levante todos los servicios en segundo plano con un solo comando:
 
 ```bash
-git clone <https://github.com/FelixLamas/Proyecto_Final_Data_Engineer_Coderhouse>
-cd <NOMBRE_DE_TU_CARPETA>
+git clone https://github.com/FelixLamas/Proyecto_Final_Data_Engineer_Coderhouse
+cd Proyecto_Final_Data_Engineer_Coderhouse
 docker-compose up -d --build
 ```
 
