@@ -13,7 +13,7 @@ El ecosistema está completamente automatizado y contenerizado utilizando **Dock
         │
         ├──> [ PySpark Container ] ──> Procesamiento y Limpieza (Data Lake)
         │
-        ├──> [ dbt Container ] ──> Modelado y Carga (Data Warehouse / SQL Server)
+        ├──> [ dbt Container ] ──> Modelado y Carga (Data Warehouse / DuckDB)
         │
         └──> [ Prometheus / Grafana ] ──> Registro de Métricas y Visualización (Dashboard)
 ```
@@ -22,18 +22,20 @@ El ecosistema está completamente automatizado y contenerizado utilizando **Dock
 *   **Orquestador (Python):** Controla el flujo secuencial de ejecución de las tareas y expone un servidor de métricas en el puerto `8000`.
 *   **Procesamiento (PySpark):** Limpia, estructura y procesa grandes volúmenes de datos optimizando el uso de memoria.
 *   **Transformación (dbt):** Modela las tablas finales dentro del Data Warehouse y ejecuta pruebas de calidad (*data quality tests*).
-*   **Almacenamiento (SQL Server):** Base de datos relacional que actúa como Data Warehouse para las tablas analíticas.
+*   **Almacenamiento (DuckDB):** Base de datos analítica columnar e "in-process" que actúa como Data Warehouse local, donde dbt materializa y transforma las tablas de forma ultra rápida.
 *   **Observabilidad (Prometheus + Grafana):** Prometheus recolecta los tiempos de ejecución de cada tarea de manera activa, y Grafana los visualiza en un panel de control automatizado por código (*Dashboards-as-Code*).
 
 ---
 
-## ⚡ Justificación Tecnológica: ¿Por qué Apache Spark?
+## ⚡ Justificación Tecnológica: Enfoque "Future-Proof" con Apache Spark
 
-Para la capa de procesamiento y enriquecimiento de datos se seleccionó **PySpark** por sobre herramientas tradicionales como Pandas o queries SQL directas debido a:
+Para la capa de procesamiento y enriquecimiento de datos se seleccionó **PySpark** por sobre herramientas tradicionales de análisis (como Pandas o consultas SQL directas en memoria), aplicando un **diseño de arquitectura proactivo y preparado para el futuro**. 
 
-1.  **Procesamiento Distribuido (In-Memory):** Spark procesa los datos de forma distribuida en memoria a lo largo de un clúster de nodos. Esto elimina la limitación de Pandas de procesar datos en un único hilo limitado por la RAM física de una sola máquina.
-2.  **Evaluación Perezosa (Lazy Evaluation):** Spark no ejecuta transformaciones al instante; en su lugar, construye un Grafo Acíclico Dirigido (DAG) para optimizar el plan físico de ejecución. Los datos solo se computan cuando se gatilla una acción de escritura, maximizando el uso del hardware.
-3.  **Escalabilidad Horizontal (Big Data Ready):** Si el volumen de datos escala de Megabytes a Terabytes, la lógica del código de PySpark se mantiene idéntica. Solo se añaden más nodos de procesamiento al clúster sin reescribir una sola línea de código.
+La decisión de estructurar el pipeline sobre Spark responde a la necesidad de **adelantarse al escalamiento del código ante volúmenes masivos de datos**, evitando costosas reingenierías a mediano plazo bajo los siguientes pilares:
+
+1. **Escalabilidad Horizontal Anticipada (Big Data Ready):** Al implementar PySpark desde el inicio, el pipeline queda preparado para procesar Terabytes de información de forma nativa. Si el volumen de datos del negocio crece exponencialmente, **la lógica del código se mantiene exactamente igual**; solo se requiere acoplar más nodos al clúster de Spark, logrando un escalamiento lineal sin tocar una sola línea de lógica de datos.
+2. **Desacoplamiento de Recursos de una Sola Máquina (In-Memory):** Herramientas tradicionales como Pandas están limitadas a un único hilo de ejecución y restringidas a la RAM de un solo servidor físico. PySpark nos permite distribuir el procesamiento en memoria a lo largo de un clúster de nodos, eliminando de raíz los cuellos de botella de hardware antes de que ocurran.
+3. **Optimización Inteligente con Evaluación Perezosa (Lazy Evaluation):** Spark no ejecuta las operaciones de forma lineal inmediata. Construye un Grafo Acíclico Dirigido (DAG) para optimizar el plan de ejecución física. Esto garantiza que las transformaciones pesadas se agrupen y simplifiquen automáticamente para consumir el menor cómputo posible antes de persistir los resultados refinados en DuckDB, protegiendo la eficiencia del sistema.
 
 ---
 
