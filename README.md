@@ -4,6 +4,39 @@ Este proyecto consiste en el diseño e implementación de un pipeline de datos b
 
 ---
 
+## 📂 Estructura del Proyecto
+
+La distribución de directorios y componentes principales del repositorio está organizada de la siguiente manera:
+
+```text
+Proyecto_Final_Data_Engineer_Coderhouse/
+│
+├── dbt_project/               # Proyecto de dbt (Modelos SQL, esquemas y tests)
+│   ├── models/                # Modelos analíticos (Staging, Marts, etc.)
+│   └── dbt_project.yml        # Configuración del proyecto dbt
+│
+├── grafana/                   # Configuraciones de observabilidad para Grafana
+│   ├── dashboards/            # Archivos JSON de dashboards provistos
+│   └── provisioning/          # Proveedores automáticos de datasources y tableros
+│
+├── images/                    # Capturas de pantalla de evidencias de ejecución
+│
+├── prometheus/                # Archivos de configuración de Prometheus
+│   └── prometheus.yml         # Definición de targets y tiempos de scrape
+│
+├── scripts/                   # Scripts de Python y procesamiento
+│   ├── generate_data.py       # Ingesta y generación de datos raw
+│   └── pyspark_process.py     # Lógica de limpieza y transformación en Spark
+│
+├── docker-compose.yml         # Orquestación de infraestructura multi-contenedor
+├── Dockerfile                 # Construcción del entorno de ejecución del pipeline
+├── README.md                  # Documentación del proyecto
+├── requirements.txt           # Dependencias de librerías de Python
+└── run_pipeline.py            # Script orquestador principal del pipeline
+```
+
+---
+
 ## 📐 Arquitectura del Proyecto
 
 El ecosistema está completamente automatizado y contenerizado utilizando **Docker**.
